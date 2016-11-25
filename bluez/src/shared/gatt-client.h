@@ -32,6 +32,7 @@ struct bt_gatt_client;
 struct bt_gatt_client *bt_gatt_client_new(struct gatt_db *db,
 							struct bt_att *att,
 							uint16_t mtu);
+struct bt_gatt_client *bt_gatt_client_clone(struct bt_gatt_client *client);
 
 struct bt_gatt_client *bt_gatt_client_ref(struct bt_gatt_client *client);
 void bt_gatt_client_unref(struct bt_gatt_client *client);
@@ -70,6 +71,7 @@ bool bt_gatt_client_set_debug(struct bt_gatt_client *client,
 					bt_gatt_client_destroy_func_t destroy);
 
 uint16_t bt_gatt_client_get_mtu(struct bt_gatt_client *client);
+struct gatt_db *bt_gatt_client_get_db(struct bt_gatt_client *client);
 
 bool bt_gatt_client_cancel(struct bt_gatt_client *client, unsigned int id);
 bool bt_gatt_client_cancel_all(struct bt_gatt_client *client);
@@ -111,7 +113,7 @@ unsigned int bt_gatt_client_write_long_value(struct bt_gatt_client *client,
 unsigned int bt_gatt_client_prepare_write(struct bt_gatt_client *client,
 				unsigned int id,
 				uint16_t value_handle, uint16_t offset,
-				uint8_t *value, uint16_t length,
+				const uint8_t *value, uint16_t length,
 				bt_gatt_client_write_long_callback_t callback,
 				void *user_data,
 				bt_gatt_client_destroy_func_t destroy);
@@ -130,5 +132,5 @@ unsigned int bt_gatt_client_register_notify(struct bt_gatt_client *client,
 bool bt_gatt_client_unregister_notify(struct bt_gatt_client *client,
 							unsigned int id);
 
-bool bt_gatt_client_set_sec_level(struct bt_gatt_client *client, int level);
-int bt_gatt_client_get_sec_level(struct bt_gatt_client *client);
+bool bt_gatt_client_set_security(struct bt_gatt_client *client, int level);
+int bt_gatt_client_get_security(struct bt_gatt_client *client);
